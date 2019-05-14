@@ -40,9 +40,9 @@
       </action>
     </actions>
     <text>configure signal</text>
-    <x>610</x>
+    <x>650</x>
     <y>570</y>
-    <width>180</width>
+    <width>140</width>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
