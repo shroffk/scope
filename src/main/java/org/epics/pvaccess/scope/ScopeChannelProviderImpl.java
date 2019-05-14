@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.epics.nt.NTScalarArray;
 import org.epics.pvaccess.PVFactory;
 import org.epics.pvaccess.client.AccessRights;
 import org.epics.pvaccess.client.Channel;
@@ -30,23 +31,18 @@ import org.epics.pvaccess.client.ChannelRequest;
 import org.epics.pvaccess.client.ChannelRequester;
 import org.epics.pvaccess.client.GetFieldRequester;
 import org.epics.pvaccess.scope.ScopePvStructure.ScopePvStructureListener;
-import org.epics.pvdata.factory.StandardFieldFactory;
 import org.epics.pvdata.misc.BitSet;
 import org.epics.pvdata.monitor.Monitor;
 import org.epics.pvdata.monitor.MonitorElement;
 import org.epics.pvdata.monitor.MonitorRequester;
 import org.epics.pvdata.pv.Field;
-import org.epics.pvdata.pv.FieldCreate;
 import org.epics.pvdata.pv.MessageType;
-import org.epics.pvdata.pv.PVDataCreate;
 import org.epics.pvdata.pv.PVField;
 import org.epics.pvdata.pv.PVStructure;
-import org.epics.pvdata.pv.ScalarArray;
 import org.epics.pvdata.pv.ScalarType;
 import org.epics.pvdata.pv.Status;
 import org.epics.pvdata.pv.Status.StatusType;
 import org.epics.pvdata.pv.StatusCreate;
-import org.epics.pvdata.pv.Structure;
 
 public class ScopeChannelProviderImpl implements ChannelProvider {
 
@@ -60,10 +56,6 @@ public class ScopeChannelProviderImpl implements ChannelProvider {
     private static final Status fieldDoesNotExistStatus = statusCreate.createStatus(StatusType.ERROR, "field does not exist", null);
     private static final Status destroyedStatus = statusCreate.createStatus(StatusType.ERROR, "channel destroyed", null);
 
-    // TODO
-    private static final FieldCreate fieldCreate = PVFactory.getFieldCreate();
-    private static final PVDataCreate pvDataCreate = PVFactory.getPVDataCreate();
-    
     public ScopeChannelProviderImpl()
     {
         // not nice but users would like to see this
@@ -542,14 +534,11 @@ public class ScopeChannelProviderImpl implements ChannelProvider {
     }
 
     private synchronized ScopePvStructure getTopStructure(String channelName) {
-        ScalarArray structure = fieldCreate.createScalarArray(ScalarType.pvDouble);
-        Field field = 
-                StandardFieldFactory.getStandardField().
-                    scalarArray(
-                            ((ScalarArray)structure).getElementType(),
-                            "value,timeStamp,alarm,display,control" /*,valueAlarm"*/);
-        
-        PVStructure pvStructure = pvDataCreate.createPVStructure((Structure)field);
+        PVStructure pvStructure = NTScalarArray.createBuilder()
+                                             .value(ScalarType.pvDouble)
+                                             .addDisplay()
+                                             .addTimeStamp()
+                                             .addDescriptor().createPVStructure();
         return new ScopePvStructure(pvStructure, channelName);
     }
 
