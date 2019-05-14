@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Display</name>
+  <widget type="group" version="2.0.0">
+    <name>Group</name>
+    <x>10</x>
+    <y>10</y>
+    <width>570</width>
+    <height>370</height>
+    <style>3</style>
+    <transparent>true</transparent>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="write_pv">
+        <pv_name>loc://signal_name</pv_name>
+        <value>sine</value>
+        <description>Sine wave</description>
+      </action>
+      <action type="write_pv">
+        <pv_name>loc://signal_name</pv_name>
+        <value>sawtooth</value>
+        <description>Sawtooth wave</description>
+      </action>
+      <action type="write_pv">
+        <pv_name>loc://signal_name</pv_name>
+        <value>gaussian</value>
+        <description>Gaussian wave</description>
+      </action>
+      <action type="write_pv">
+        <pv_name>loc://signal_name</pv_name>
+        <value>square</value>
+        <description>Square wave</description>
+      </action>
+      <action type="write_pv">
+        <pv_name>loc://signal_name</pv_name>
+        <value>noise</value>
+        <description>Noise</description>
+      </action>
+    </actions>
+    <text>configure signal</text>
+    <x>610</x>
+    <y>570</y>
+    <width>180</width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <pv_name>loc://signal_name("sine")</pv_name>
+    <x>310</x>
+    <y>570</y>
+    <width>280</width>
+    <height>30</height>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Group</name>
+    <x>10</x>
+    <y>10</y>
+    <width>780</width>
+    <height>550</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="xyplot" version="2.0.0">
+      <name>X/Y Plot</name>
+      <width>780</width>
+      <height>550</height>
+      <foreground_color>
+        <color name="Background" red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color name="Text" red="0" green="0" blue="0">
+        </color>
+      </background_color>
+      <grid_color>
+        <color name="Off" red="60" green="100" blue="60">
+        </color>
+      </grid_color>
+      <show_legend>false</show_legend>
+      <rules>
+        <rule name="New Rule" prop_id="traces[0].y_pv" out_exp="true">
+          <exp bool_exp="true">
+            <expression>"pva://"+pvStr0</expression>
+          </exp>
+          <pv_name>loc://signal_name</pv_name>
+        </rule>
+      </rules>
+      <x_axis>
+        <title>X</title>
+        <autoscale>true</autoscale>
+        <log_scale>false</log_scale>
+        <minimum>0.0</minimum>
+        <maximum>100.0</maximum>
+        <show_grid>false</show_grid>
+        <title_font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </title_font>
+        <scale_font>
+          <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+          </font>
+        </scale_font>
+        <visible>true</visible>
+      </x_axis>
+      <y_axes>
+        <y_axis>
+          <title>Y</title>
+          <autoscale>false</autoscale>
+          <log_scale>false</log_scale>
+          <minimum>-1.0</minimum>
+          <maximum>1.0</maximum>
+          <show_grid>true</show_grid>
+          <title_font>
+            <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+            </font>
+          </title_font>
+          <scale_font>
+            <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+            </font>
+          </scale_font>
+          <visible>true</visible>
+        </y_axis>
+      </y_axes>
+      <traces>
+        <trace>
+          <name>$(traces[0].y_pv)</name>
+          <x_pv></x_pv>
+          <y_pv>pva://sine</y_pv>
+          <err_pv></err_pv>
+          <axis>0</axis>
+          <trace_type>1</trace_type>
+          <color>
+            <color red="0" green="0" blue="255">
+            </color>
+          </color>
+          <line_width>1</line_width>
+          <point_type>0</point_type>
+          <point_size>10</point_size>
+        </trace>
+      </traces>
+    </widget>
+  </widget>
+</display>
