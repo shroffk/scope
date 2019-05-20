@@ -13,6 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
+import org.epics.nt.NTScalarArray;
 import org.epics.pvaccess.client.Lockable;
 import org.epics.pvaccess.scope.SignalGenerator.Signal;
 import org.epics.pvdata.factory.FieldFactory;
@@ -97,14 +98,14 @@ public class ScopePvStructure implements Lockable {
                     SCOPE_SIGNAL_VALUE},
             new Field[] {
                     FieldFactory.getFieldCreate().createScalar(ScalarType.pvString),
-                    FieldFactory.getFieldCreate().createScalarArray(ScalarType.pvDouble)
+                    FieldFactory.getFieldCreate().createStructure(NTScalarArray.createBuilder().value(ScalarType.pvDouble).createStructure())
                     });
 
     // Complete Scope data structure
     static final Structure SCOPE = FieldFactory.getFieldCreate().createStructure(
             new String[] { "signal", "axis", "trace", "timeStamp"},
             new Field[] {
-                    FieldFactory.getFieldCreate().createStructureArray(SCOPE_SIGNAL),
+                    FieldFactory.getFieldCreate().createStructureArray(NTScalarArray.createBuilder().value(ScalarType.pvDouble).addDescriptor().createStructure()),
                     FieldFactory.getFieldCreate().createStructureArray(SCOPE_AXIS),
                     FieldFactory.getFieldCreate().createStructureArray(SCOPE_TRACE),
                     FieldFactory.getFieldCreate().createStructure(StandardFieldFactory.getStandardField().timeStamp())
@@ -116,7 +117,7 @@ public class ScopePvStructure implements Lockable {
 
     private final PVStructure pvStructure;
     private BitSet changedBitSet;
-    private PVDoubleArray valueField;
+    private NTScalarArray valueField;
     private PVTimeStamp timeStampField;
     private int timeStampFieldOffset;
     private int valueFieldOffset;
@@ -135,7 +136,7 @@ public class ScopePvStructure implements Lockable {
         StructureArrayData data = new StructureArrayData();
         this.pvStructure.getStructureArrayField("signal").get(0, 2, data);
         valueFieldOffset = this.pvStructure.getStructureArrayField("signal").getFieldOffset();
-        valueField = (PVDoubleArray) data.data[1].getScalarArrayField(SCOPE_SIGNAL_VALUE, ScalarType.pvDouble);
+        valueField = NTScalarArray.wrap(data.data[1]);
 
         timeStampField = PVTimeStampFactory.create();
         PVField ts = this.pvStructure.getStructureField("timeStamp");
@@ -167,18 +168,18 @@ public class ScopePvStructure implements Lockable {
 
     private void initialize(PVStructure pvStructure, String signalType, int elementCount) {
 
-        PVStructure value1 = PVDataFactory.getPVDataCreate().createPVStructure(SCOPE_SIGNAL);
-        value1.getStringField(SCOPE_SIGNAL_ID).put("count");
-        PVDoubleArray valueField = (PVDoubleArray) value1.getScalarArrayField(SCOPE_SIGNAL_VALUE, ScalarType.pvDouble);
+        NTScalarArray ntValue1 = NTScalarArray.createBuilder().value(ScalarType.pvDouble).addDescriptor().create();
+        ntValue1.getDescriptor().put("count");
+        PVDoubleArray valueField = (PVDoubleArray) ntValue1.getValue();
         IntStream.rangeClosed(0, (int) elementCount).toArray();
         double[] range = DoubleStream.iterate(0, n -> n + 1).limit(elementCount).toArray();
         valueField.put(0, elementCount, range, 0);
 
-        PVStructure value2 = PVDataFactory.getPVDataCreate().createPVStructure(SCOPE_SIGNAL);
-        value2.getStringField(SCOPE_SIGNAL_ID).put(signalType);
+        NTScalarArray value2 = NTScalarArray.createBuilder().value(ScalarType.pvDouble).addDescriptor().create();
+        value2.getDescriptor().put(signalType);
 
         PVStructureArray values = pvStructure.getStructureArrayField("signal");
-        values.put(0, 2, new PVStructure[] {value1, value2}, 0);
+        values.put(0, 2, new PVStructure[] {ntValue1.getPVStructure(), value2.getPVStructure()}, 0);
 
         PVStructure axis1 = PVDataFactory.getPVDataCreate().createPVStructure(SCOPE_AXIS);
         axis1.getStringField(SCOPE_AXIS_DIR).put("x");
@@ -204,9 +205,10 @@ public class ScopePvStructure implements Lockable {
         changedBitSet.clear();
 
         final double[] ARRAY_VALUE = signal.nextListDouble(Instant.now());
-        valueField.setCapacity(ARRAY_VALUE.length);
-        valueField.setLength(ARRAY_VALUE.length);
-        valueField.put(0, ARRAY_VALUE.length, ARRAY_VALUE, 0);
+        
+        valueField.getValue().setCapacity(ARRAY_VALUE.length);
+        valueField.getValue().setLength(ARRAY_VALUE.length);
+        ((PVDoubleArray)valueField.getValue()).put(0, ARRAY_VALUE.length, ARRAY_VALUE, 0);
 
         changedBitSet.set(valueFieldOffset);
 

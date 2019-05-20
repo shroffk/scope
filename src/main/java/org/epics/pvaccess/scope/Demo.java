@@ -127,7 +127,7 @@ class Demo implements ChannelRequester, MonitorRequester
 //        new Demo("counter");
         new Demo("sawtooth");
 ////        TimeUnit.SECONDS.sleep(5);
-//        new Demo("gaussian");
+        new Demo("gaussian");
 ////        TimeUnit.SECONDS.sleep(3);
 //        new Demo("simpleCounter");
         TimeUnit.SECONDS.sleep(300);
