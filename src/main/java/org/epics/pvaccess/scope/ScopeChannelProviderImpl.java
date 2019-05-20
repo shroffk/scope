@@ -534,12 +534,7 @@ public class ScopeChannelProviderImpl implements ChannelProvider {
     }
 
     private synchronized ScopePvStructure getTopStructure(String channelName) {
-        PVStructure pvStructure = NTScalarArray.createBuilder()
-                                             .value(ScalarType.pvDouble)
-                                             .addDisplay()
-                                             .addTimeStamp()
-                                             .addDescriptor().createPVStructure();
-        return new ScopePvStructure(pvStructure, channelName);
+        return new ScopePvStructure(channelName);
     }
 
     @Override

@@ -98,8 +98,8 @@ class Demo implements ChannelRequester, MonitorRequester
             try
             {
                 String value = update.getPVStructure().toString().replace("\n", "");
-                if (value.length() > 60)
-                    value = value.substring(0, 60) + "...";
+                if (value.length() > 1000)
+                    value = value.substring(0, 1000) + "...";
                 System.out.println(channel.getChannelName() + " = " + value);
             }
             catch (Exception ex)
@@ -126,10 +126,10 @@ class Demo implements ChannelRequester, MonitorRequester
 
 //        new Demo("counter");
         new Demo("sawtooth");
-//        TimeUnit.SECONDS.sleep(5);
-        new Demo("gaussian");
-//        TimeUnit.SECONDS.sleep(3);
-        new Demo("simpleCounter");
+////        TimeUnit.SECONDS.sleep(5);
+//        new Demo("gaussian");
+////        TimeUnit.SECONDS.sleep(3);
+//        new Demo("simpleCounter");
         TimeUnit.SECONDS.sleep(300);
         System.exit(0);
     }
