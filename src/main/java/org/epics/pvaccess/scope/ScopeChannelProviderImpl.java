@@ -387,7 +387,6 @@ public class ScopeChannelProviderImpl implements ChannelProvider {
                 activeBitSet.or(changedBitSet);
 
                 // add to queue, trigger
-                lock();
                 scopePvStructure.lock();
                 try {
                     mapper.updateCopyStructureOriginBitSet(activeBitSet, bitSet);
@@ -396,7 +395,6 @@ public class ScopeChannelProviderImpl implements ChannelProvider {
                     scopePvStructure.unlock();
                     unlock();
                 }
-                unlock();
                 // TODO not a safe copy...
                 monitorRequester.monitorEvent(this);
             }
