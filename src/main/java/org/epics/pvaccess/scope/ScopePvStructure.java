@@ -88,19 +88,6 @@ public class ScopePvStructure implements Lockable {
                     FieldFactory.getFieldCreate().createScalar(ScalarType.pvString),
                     FieldFactory.getFieldCreate().createScalar(ScalarType.pvString), });
 
-    // Structure describing a signal values
-    private static final String SCOPE_SIGNAL_ID = "id";
-    private static final String SCOPE_SIGNAL_VALUE = "value";
-
-    static final Structure SCOPE_SIGNAL = FieldFactory.getFieldCreate().createStructure(
-            new String[] {
-                    SCOPE_SIGNAL_ID,
-                    SCOPE_SIGNAL_VALUE},
-            new Field[] {
-                    FieldFactory.getFieldCreate().createScalar(ScalarType.pvString),
-                    FieldFactory.getFieldCreate().createStructure(NTScalarArray.createBuilder().value(ScalarType.pvDouble).createStructure())
-                    });
-
     // Complete Scope data structure
     static final Structure SCOPE = FieldFactory.getFieldCreate().createStructure(
             new String[] { "signal", "axis", "trace", "timeStamp"},
