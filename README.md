@@ -4,13 +4,13 @@ A example pvaccess java server for emulating oscilloscope data
 An example scope structure:  
 ```
 sawtooth = structure 
-    structure[] signal 
-        structure 
-            string id count
+    epics:nt/NTScalarArray:1.0[] signal 
+        epics:nt/NTScalarArray:1.0 
             double[] value [0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0]
-        structure 
-            string id sawtooth
-            double[] value [0.20199999999999996,0.22199999999999998,0.242,0.262,0.28200000000000003,0.3019999999999998,0.32200000000000006,0.34199999999999986,0.3620000000000001,0.3819999999999999]
+            string descriptor count
+        epics:nt/NTScalarArray:1.0 
+            double[] value [-1.0,-0.98,-0.96,-0.94,-0.92,-0.9,-0.88,-0.86,-0.84,-0.8200000000000001]
+            string descriptor sawtooth
     structure[] axis 
         structure 
             string dir x
@@ -32,6 +32,7 @@ sawtooth = structure
             string color 
             string marker 
     time_t timeStamp
-        long secondsPastEpoch 1558364965
-        int nanoseconds 663000000
+        long secondsPastEpoch 1561647684
+        int nanoseconds 617000000
+        int userTag 0
 ```
