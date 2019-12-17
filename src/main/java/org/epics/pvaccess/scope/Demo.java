@@ -58,6 +58,7 @@ class Demo implements ChannelRequester, MonitorRequester
     public void channelStateChange(final Channel channel, final ConnectionState state)
     {
         System.out.println("Channel " + channel.getChannelName() + " state: " + state);
+        System.out.println("Channel remote address : " + channel.getRemoteAddress());
         switch (state)
         {
         case CONNECTED:
@@ -123,13 +124,15 @@ class Demo implements ChannelRequester, MonitorRequester
         ClientFactory.start();
         final ChannelProviderRegistry registry = ChannelProviderRegistryFactory.getChannelProviderRegistry();
         provider = registry.getProvider("pva");
+        
 
-//        new Demo("counter");
+        new Demo("sine");
+        TimeUnit.SECONDS.sleep(5);
         new Demo("sawtooth");
-////        TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(5);
         new Demo("gaussian");
-////        TimeUnit.SECONDS.sleep(3);
-//        new Demo("simpleCounter");
+        TimeUnit.SECONDS.sleep(5);
+        new Demo("square");
         TimeUnit.SECONDS.sleep(300);
         System.exit(0);
     }
