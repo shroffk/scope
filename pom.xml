@@ -8,17 +8,17 @@
     <dependency>
       <groupId>org.epics</groupId>
       <artifactId>epics-pvaccess</artifactId>
-      <version>5.1.3-SNAPSHOT</version>
+      <version>5.1.3</version>
     </dependency>
     <dependency>
       <groupId>org.epics</groupId>
       <artifactId>epics-pvdata</artifactId>
-      <version>6.1.3-SNAPSHOT</version>
+      <version>6.1.3</version>
     </dependency>
     <dependency>
       <groupId>org.epics</groupId>
       <artifactId>epics-ntypes</artifactId>
-      <version>0.3.3-SNAPSHOT</version>
+      <version>0.3.3</version>
     </dependency>
   </dependencies>
   <build>
