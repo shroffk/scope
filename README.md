@@ -1,6 +1,9 @@
 # scope
 A example pvaccess java server for emulating oscilloscope data
 
+### Documentation
+https://pva-scope.readthedocs.io/en/latest/
+
 An example scope structure:  
 ```
 sawtooth = structure 
