@@ -43,7 +43,7 @@ An example Diaply builder screen has been included in the repo under
 
 /src/main/resources/ui/scope.bob
 
-.. image:: _static/scope.png
+.. image:: _static/scope.PNG
 
 =================
 Developers Guide:
