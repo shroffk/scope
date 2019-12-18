@@ -113,7 +113,7 @@ public class ScopePvStructure implements Lockable {
     {
         this.pvStructure = PVDataFactory.getPVDataCreate().createPVStructure(SCOPE);
 
-        int elementCount = 10;
+        int elementCount = 100;
        
         // Initialize the basic structure.
         initialize(this.pvStructure, signalType, elementCount);
