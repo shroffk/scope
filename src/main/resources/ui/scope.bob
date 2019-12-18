@@ -43,6 +43,7 @@
     <x>650</x>
     <y>570</y>
     <width>140</width>
+    <tooltip>$(actions)</tooltip>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
@@ -79,30 +80,19 @@
       </grid_color>
       <show_legend>false</show_legend>
       <rules>
-        <rule name="New Rule" prop_id="traces[0].y_pv" out_exp="true">
+        <rule name="Y pv" prop_id="traces[0].y_pv" out_exp="true">
           <exp bool_exp="true">
-            <expression>"pva://"+pvStr0</expression>
+            <expression>"pva://"+pvStr0+"/signal[1]"</expression>
+          </exp>
+          <pv_name>loc://signal_name</pv_name>
+        </rule>
+        <rule name="X pv" prop_id="traces[0].x_pv" out_exp="true">
+          <exp bool_exp="true">
+            <expression>"pva://"+pvStr0+"/signal[0]"</expression>
           </exp>
           <pv_name>loc://signal_name</pv_name>
         </rule>
       </rules>
-      <x_axis>
-        <title>X</title>
-        <autoscale>true</autoscale>
-        <log_scale>false</log_scale>
-        <minimum>0.0</minimum>
-        <maximum>100.0</maximum>
-        <show_grid>false</show_grid>
-        <title_font>
-          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-          </font>
-        </title_font>
-        <scale_font>
-          <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
-          </font>
-        </scale_font>
-        <visible>true</visible>
-      </x_axis>
       <y_axes>
         <y_axis>
           <title>Y</title>
@@ -125,8 +115,8 @@
       <traces>
         <trace>
           <name>$(traces[0].y_pv)</name>
-          <x_pv></x_pv>
-          <y_pv>pva://sine</y_pv>
+          <x_pv>pva://sine/signal[0]</x_pv>
+          <y_pv>pva://sine/signal[1]</y_pv>
           <err_pv></err_pv>
           <axis>0</axis>
           <trace_type>1</trace_type>
@@ -135,10 +125,77 @@
             </color>
           </color>
           <line_width>1</line_width>
+          <line_style>0</line_style>
           <point_type>0</point_type>
           <point_size>10</point_size>
+          <visible>true</visible>
         </trace>
       </traces>
     </widget>
+  </widget>
+  <widget type="xyplot" version="2.0.0">
+    <name>X/Y Plot_1</name>
+    <x>10</x>
+    <y>610</y>
+    <width>779</width>
+    <height>550</height>
+    <foreground_color>
+      <color name="Background" red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </background_color>
+    <grid_color>
+      <color name="Off" red="60" green="100" blue="60">
+      </color>
+    </grid_color>
+    <show_legend>false</show_legend>
+    <y_axes>
+      <y_axis>
+        <title>Y</title>
+        <autoscale>true</autoscale>
+        <log_scale>false</log_scale>
+        <minimum>-1.0</minimum>
+        <maximum>1.0</maximum>
+        <show_grid>true</show_grid>
+        <title_font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </title_font>
+        <scale_font>
+          <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+          </font>
+        </scale_font>
+        <visible>true</visible>
+      </y_axis>
+    </y_axes>
+    <traces>
+      <trace>
+        <name>$(traces[0].y_pv)</name>
+        <x_pv></x_pv>
+        <y_pv>pva://sawtooth/signal[1]</y_pv>
+        <err_pv></err_pv>
+        <axis>0</axis>
+        <trace_type>1</trace_type>
+        <color>
+          <color red="0" green="0" blue="255">
+          </color>
+        </color>
+        <line_width>1</line_width>
+        <line_style>0</line_style>
+        <point_type>0</point_type>
+        <point_size>100</point_size>
+        <visible>true</visible>
+      </trace>
+    </traces>
+  </widget>
+  <widget type="tank" version="2.0.0">
+    <name>Tank</name>
+    <x>850</x>
+    <y>950</y>
+    <width>1</width>
+    <height>1</height>
   </widget>
 </display>
